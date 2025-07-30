@@ -1,0 +1,75 @@
+:root {
+    --vc-pdf-bg-primary: #ffffff; --vc-pdf-bg-secondary: #f0f2f5; --vc-pdf-bg-toolbar: #ffffff;
+    --vc-pdf-bg-button: #f8f9fa; --vc-pdf-bg-button-hover: #e9ecef; --vc-pdf-bg-button-active: #0d6efd;
+    --vc-pdf-bg-modal: #ffffff; --vc-pdf-text-primary: #212529; --vc-pdf-text-secondary: #495057;
+    --vc-pdf-border-color: #dee2e6; --vc-pdf-shadow-color: rgba(0,0,0,0.1);
+    --vc-pdf-bg-tooltip: #212529; --vc-pdf-text-tooltip: #ffffff;
+}
+[data-theme="dark"] {
+    --vc-pdf-bg-primary: #121212; --vc-pdf-bg-secondary: #1e1e1e; --vc-pdf-bg-toolbar: #2a2a2a;
+    --vc-pdf-bg-button: #404040; --vc-pdf-bg-button-hover: #505050; --vc-pdf-bg-button-active: #295b9c;
+    --vc-pdf-bg-modal: #333; --vc-pdf-text-primary: #e0e0e0; --vc-pdf-text-secondary: #e0e0e0;
+    --vc-pdf-border-color: #555; --vc-pdf-shadow-color: rgba(0,0,0,0.5);
+    --vc-pdf-bg-tooltip: #f8f9fa; --vc-pdf-text-tooltip: #212529;
+}
+body { font-family: Arial, sans-serif; background-color: var(--vc-pdf-bg-primary); margin: 0; }
+#pdf-editor-container { width: 100vw; height: 100vh; }
+.vc-pdf-main-grid {
+    display: grid;
+    /* This rule is now for the two-column layout */
+    grid-template-columns: 1fr 360px;
+    height: 100%; width: 100%;
+    gap: 8px; padding: 8px;
+    box-sizing: border-box;
+    background-color: var(--vc-pdf-bg-secondary);
+}
+.vc-pdf-main-grid.single-column {
+    grid-template-columns: 1fr; /* The viewer takes up the full width */
+}
+.vc-pdf-viewer-wrapper, .vc-pdf-comments-panel { display: flex; flex-direction: column; background-color: var(--vc-pdf-bg-primary); border: 1px solid var(--vc-pdf-border-color); border-radius: 6px; overflow: hidden; }
+#vc-pdf-toolbar { display: flex; align-items: center; justify-content: center; padding: 8px; background-color: var(--vc-pdf-bg-toolbar); color: var(--vc-pdf-text-secondary); flex-shrink: 0; flex-wrap: wrap; gap: 10px; border-bottom: 1px solid var(--vc-pdf-border-color); }
+.vc-pdf-tool-group { display: flex; align-items: center; gap: 5px; }
+#vc-pdf-toolbar button { background-color: var(--vc-pdf-bg-button); color: var(--vc-pdf-text-secondary); border: 1px solid var(--vc-pdf-border-color); border-radius: 4px; padding: 0; width: 36px; height: 36px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s; }
+#vc-pdf-toolbar button:hover { background-color: var(--vc-pdf-bg-button-hover); }
+#vc-pdf-toolbar button.active { background-color: var(--vc-pdf-bg-button-active); border-color: transparent; color: white; }
+#vc-pdf-toolbar .vc-pdf-spacer { width: 1px; height: 25px; background-color: var(--vc-pdf-border-color); margin: 0 5px; }
+#vc-pdf-toolbar input[type="number"] { width: 45px; text-align: center; border: 1px solid var(--vc-pdf-border-color); background-color: var(--vc-pdf-bg-primary); color: var(--vc-pdf-text-primary); border-radius: 4px; height: 36px; }
+.vc-pdf-page-indicator { margin: 0 5px; color: var(--vc-pdf-text-primary); }
+#vc-pdf-size-selector button { font-size: 0.8rem; font-weight: bold; }
+.vc-pdf-color-box { width: 28px; height: 28px; border-radius: 4px; cursor: pointer; border: 2px solid var(--vc-pdf-bg-button); transition: transform 0.1s; }
+.vc-pdf-color-box:hover { transform: scale(1.1); }
+.vc-pdf-color-box.active { border-color: var(--vc-pdf-bg-button-active); transform: scale(1.1); }
+#vc-pdf-color-picker { width: 32px; height: 32px; border: none; background: none; padding: 0; border-radius: 4px; cursor: pointer; }
+#vc-pdf-export-pdf { width: auto; padding: 0 12px; gap: 8px; }
+.vc-pdf-comments-header { padding: 12px; font-weight: bold; border-bottom: 1px solid var(--vc-pdf-border-color); flex-shrink: 0; color: var(--vc-pdf-text-primary); }
+#vc-pdf-comments-list { overflow-y: auto; padding: 8px; flex-grow: 1; }
+.vc-pdf-comment-card { padding: 12px; border: 1px solid var(--vc-pdf-border-color); border-radius: 4px; margin-bottom: 8px; cursor: pointer; transition: border-color 0.2s; }
+.vc-pdf-comment-card:hover { border-color: var(--vc-pdf-bg-button-active); }
+.vc-pdf-comment-card.active { border-color: var(--vc-pdf-bg-button-active); box-shadow: 0 0 0 2px var(--vc-pdf-bg-button-active); }
+.vc-pdf-comment-card-header { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 6px; }
+.vc-pdf-comment-user { font-weight: bold; color: var(--vc-pdf-text-primary); }
+.vc-pdf-comment-page { color: var(--vc-pdf-text-secondary); }
+.vc-pdf-comment-body { font-size: 0.9rem; color: var(--vc-pdf-text-primary); word-wrap: break-word; }
+#vc-pdf-viewer-main { flex-grow: 1; overflow: auto; text-align: center; padding: 20px 0; position: relative; }
+#vc-pdf-viewer-main.pan-mode { cursor: grab; }
+#vc-pdf-viewer-main.pan-mode.is-panning { cursor: grabbing; }
+#vc-pdf-pdf-canvas { box-shadow: 0 0 10px var(--vc-pdf-shadow-color); border: 1px solid var(--vc-pdf-border-color); }
+.canvas-container { position: absolute !important; top: 0; left: 50%; transform: translateX(-50%); }
+#vc-pdf-tooltip { position: fixed; z-index: 10001; padding: 8px 12px; background-color: var(--vc-pdf-bg-tooltip); color: var(--vc-pdf-text-tooltip); border-radius: 6px; font-size: 0.85rem; line-height: 1.4; max-width: 250px; text-align: left; pointer-events: none; box-shadow: 0 2px 8px var(--vc-pdf-shadow-color); display: none; }
+#vc-pdf-tooltip.visible { display: block; }
+#vc-pdf-context-menu { position: absolute; display: none; background: var(--vc-pdf-bg-toolbar); border-radius: 6px; box-shadow: 0 2px 8px var(--vc-pdf-shadow-color); padding: 4px; z-index: 100; transform: translateY(-50%); }
+#vc-pdf-context-menu.visible { display: flex; gap: 4px; }
+#vc-pdf-context-menu button { width: 32px; height: 32px; font-size: 14px; }
+#vc-pdf-comment-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 9999; }
+#vc-pdf-comment-modal.visible { display: flex; }
+.vc-pdf-modal-content { background-color: var(--vc-pdf-bg-modal); padding: 20px; border-radius: 8px; width: 90%; max-width: 400px; box-shadow: 0 5px 15px var(--vc-pdf-shadow-color); }
+.vc-pdf-modal-content h4 { margin-top: 0; margin-bottom: 15px; color: var(--vc-pdf-text-primary); }
+.vc-pdf-modal-content textarea { width: 100%; box-sizing: border-box; margin-bottom: 15px; border-radius: 4px; border: 1px solid var(--vc-pdf-border-color); padding: 8px; font-size: 1rem; background: var(--vc-pdf-bg-primary); color: var(--vc-pdf-text-primary); }
+.vc-pdf-modal-buttons { display: flex; justify-content: flex-end; gap: 10px; }
+.vc-pdf-modal-buttons button { padding: 8px 16px; border-radius: 4px; border: none; cursor: pointer; }
+#vc-pdf-comment-save { background-color: #007bff; color: white; }
+#vc-pdf-comment-cancel { background-color: #6c757d; color: white; }
+#vc-pdf-loader-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; display: none; justify-content: center; align-items: center; }
+.vc-pdf-loader-content { text-align: center; color: white; }
+.vc-pdf-spinner { border: 4px solid rgba(255, 255, 255, 0.3); border-radius: 50%; border-top: 4px solid #fff; width: 40px; height: 40px; animation: vc-pdf-spin 1s linear infinite; margin: 0 auto 15px auto; }
+@keyframes vc-pdf-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }

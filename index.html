@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VikCraftPDFEditor</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div id="pdf-editor-container"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.mjs" type="module"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="VikCraftPDFEditor.js" type="module"></script>
+    <script type="module">
+        import VikCraftPDFEditor from './VikCraftPDFEditor.js';
+
+        const sampleAnnotations = [
+          {
+            "id": "anno_1678886401", "page": 1, "user": "vik", "createdAt": "2025-03-15T10:30:00Z",
+            "comment": "Please verify this section against the latest report.",
+            "fabric_json": { "type": "rect", "left": 105, "top": 120, "width": 250, "height": 80, "fill": "transparent", "stroke": "#E53935", "strokeWidth": 6 }
+          },
+          {
+            "id": "anno_1678886402", "page": 2, "user": "guest", "createdAt": "2025-03-16T11:00:00Z",
+            "comment": "This part is unclear and needs more detail.",
+            "fabric_json": { "type": "ellipse", "left": 200, "top": 300, "rx": 100, "ry": 50, "fill": "transparent", "stroke": "#1E88E5", "strokeWidth": 2 }
+          },
+          {
+            "id": "anno_1678886402", "page": 3, "user": "guest", "createdAt": "2025-03-16T11:00:00Z",
+            "comment": "This part is unclear and needs more detail....",
+            "fabric_json": { "type": "ellipse", "left": 200, "top": 300, "rx": 100, "ry": 50, "fill": "transparent", "stroke": "#1E88E5", "strokeWidth": 2 }
+          }
+        ];
+        
+        const editorOptions = {
+            pdfPath: './sample.pdf',
+            initialData: sampleAnnotations,
+            currentUser: 'vik',
+            // --- NEW: Add this property to fine-tune export positions ---
+            exportOffset: {
+                x: -89, // Nudge annotations 2 pixels to the left
+                y: -13.5  // Nudge annotations 1.5 pixels up
+            },
+            permissions: { allowEdit: true, allowDelete: true },
+            ui: {
+                // Set to false to hide the right-side panel and use the full-width viewer
+                enableCommentsPanel: true 
+            },
+            toolbar: {
+                theme: 'light',
+                actions: ['themeToggle'],
+                navigation: ['prev', 'pageInput', 'next'],
+                zoom: ['zoomOut', 'zoomIn', 'fitWidth'],
+                drawing: [
+                    { tool: 'select', promptForComment: false },
+                    { tool: 'pan', promptForComment: false },
+                    { tool: 'rect', promptForComment: true },
+                    { tool: 'ellipse', promptForComment: true },
+                    { tool: 'freehand', promptForComment: false },
+                    { tool: 'highlighter', promptForComment: false }
+                ],
+                strokeSizes: [ { label: 'S', size: 2 }, { label: 'M', size: 6 }, { label: 'L', size: 12 } ],
+                colors: { palette: ['#E53935', '#1E88E5', '#43A047', '#FFB300'], enablePicker: true, },
+                export: { asPDF: true, }
+            }
+        };
+        
+        // Initialize the editor
+        window.pdfEditor = new VikCraftPDFEditor('pdf-editor-container', editorOptions);
+
+        // --- NEW: How to listen for events from the library ---
+
+        // Fired when a new shape is drawn and its data is created
+        window.pdfEditor.on('annotation:created', (data) => {
+            console.log('EVENT -> annotation:created', data);
+        });
+
+        // Fired when a comment is successfully saved (create or edit)
+        window.pdfEditor.on('annotation:updated', (data) => {
+            console.log('EVENT -> annotation:updated', data);
+        });
+
+        // Fired after an annotation is deleted
+        window.pdfEditor.on('annotation:deleted', (data) => {
+            console.log('EVENT -> annotation:deleted', data);
+        });
+
+        // Fired when a user clicks and selects an annotation
+        window.pdfEditor.on('annotation:selected', (data) => {
+            console.log('EVENT -> annotation:selected', data);
+        });
+        
+        // Fired when a user clicks away from an annotation
+        window.pdfEditor.on('annotation:deselected', () => {
+            console.log('EVENT -> annotation:deselected');
+        });
+    </script>
+</body>
+</html>
