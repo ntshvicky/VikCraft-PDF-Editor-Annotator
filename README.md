@@ -2,6 +2,12 @@
 
 A lightweight, framework‑agnostic PDF viewer + annotation library built with **PDF.js**, **Fabric.js**, and **jsPDF**.
 
+[VikCraftPDF]: https://vikcraftpdfant.nitishsrivastava.com/
+For a demonstration, visit the [VikCraft PDF Editor & Annotator Demo][VikCraftPDF].
+You can also find the full documentation on their [website][VikCraftPDF].
+
+---
+
 - Pan/zoom, page navigation, light/dark theme
 - Rect/Ellipse/Freehand/Highlighter tools
 - Comment modal + right‑panel comment list
